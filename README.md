@@ -1,2 +1,2 @@
 # docker-demo
-some examples and building and running redis and nginx with docker
+some examples of building and running redis and nginx with docker
