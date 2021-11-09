@@ -1,11 +1,11 @@
 version: "3.9"
 services:
-  redis-demo:
-    build: /redis/Dockerfile
+  ajs-redis:
+    build: ./redis
     ports:
       - "6379:6379"
-  nginx-demo:
-    build: /nginx/Dockerfile
+  ajs-nginx:
+    build: ./nginx
     ports:
       - "80:80"
       - "443:443"
