@@ -1,40 +1,43 @@
 ---
 - hosts: localhost
+  connection: local
   gather_facts: no
   tasks:
 
-    - name: pull base image
-      docker_image:
-        name: ubuntu:18.04
-        state: present
+  - name: pull base image to save some time
+    community.docker.docker_image:
+      name: ubuntu:18.04
+      source: pull
 
-    - name: build nginx image
-      docker_image:
-        path: /nginx/Dockerfile
-        name: nginx_demo
-        state: build
+  - name: build aj's nginx image
+    community.docker.docker_image:
+      name: ajs-nginx
+      build:
+        path: ./nginx
+      source: build
 
-    - name: build redis image
-      docker_image:
-        path: /redis/Dockerfile
-        name: redis_demo
-        state: build
+  - name: build aj's redis image
+    community.docker.docker_image:
+      name: ajs-redis
+      build:
+        path: ./redis
+      source: build
 
-    - name: start/restart nginx
-      docker_container:
-        name: nginx_demo
-        image: nginx_demo
-        state: started
-        restart: yes
-        ports:
-         - "80:80"
-         - "443:443"
+  - name: start/restart nginx
+    community.docker.docker_container:
+      name: ajs-nginx
+      image: ajs-nginx
+      state: started
+      restart: yes
+      ports:
+       - "80:80"
+       - "443:443"
 
-    - name: start/restart redis
-      docker_container:
-        name: redis_demo
-        image: redis_demo
-        state: started
-        restart: yes
-        ports:
-         - "6379:6379"
+  - name: start/restart redis
+    community.docker.docker_container:
+      name: ajs-redis
+      image: ajs-redis
+      state: started
+      restart: yes
+      ports:
+       - "6379:6379"
